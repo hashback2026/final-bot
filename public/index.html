@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bulk STK Push</title>
+</head>
+<body>
+  <h2>Bulk STK Push</h2>
+
+  <label>Amount:</label><br />
+  <input type="number" id="amount" value="10" /><br /><br />
+
+  <label>Phone Numbers (one per line):</label><br />
+  <textarea id="numbers" rows="10" cols="40"></textarea><br /><br />
+
+  <button onclick="sendSTK()">Send STK Push</button>
+
+  <pre id="output"></pre>
+
+  <script>
+    async function sendSTK() {
+      const numbers = document
+        .getElementById("numbers")
+        .value.split("\n")
+        .map(n => n.trim())
+        .filter(n => n);
+
+      const amount = document.getElementById("amount").value;
+
+      const res = await fetch("/stk", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ numbers, amount }),
+      });
+
+      const data = await res.json();
+      document.getElementById("output").textContent =
+        JSON.stringify(data, null, 2);
+    }
+  </script>
+</body>
+</html>
