@@ -24,7 +24,7 @@
         .map(n => n.trim())
         .filter(n => n);
 
-      const amount = document.getElementById("amount").value;
+      const amount = Number(document.getElementById("amount").value);
 
       const res = await fetch("/stk", {
         method: "POST",
